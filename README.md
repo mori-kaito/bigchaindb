@@ -18,8 +18,8 @@ setuptoolsのアップデート
 
 Ubuntuでの作業
 ```text
-sudo apt-get update
-sudo apt-get install python3-dev libssl-dev libffi-dev
+$ sudo apt-get update
+$ sudo apt-get install python3-dev libssl-dev libffi-dev
 ```
 
 python-driverのインストール  
