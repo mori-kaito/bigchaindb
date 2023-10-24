@@ -10,16 +10,16 @@ Visual Studio Build Tools 2019
 * C++ BuildTools(C++によるデスクトップ開発)
 * MSVC v140 - VS2015C++ビルドツール(v14.00)
 
-pipのアップデート  
-'python -m pip install --upgrade pip'
+pipのアップデート
+`python -m pip install --upgrade pip`
 setuptoolsのアップデート
-'pip install --upgrade setuptools'
+`pip install --upgrade setuptools`
 
-Ubuntuでの作業  
-'''text
+Ubuntuでの作業
+```text
 sudo apt-get update
 sudo apt-get install python3-dev libssl-dev libffi-dev
-'''
+```
 
 python-driverのインストール
-'pip install bigchaindb_driver'
+`pip install bigchaindb_driver`
