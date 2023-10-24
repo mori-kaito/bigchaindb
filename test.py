@@ -24,5 +24,48 @@ prepared_creation_tx = bdb.transactions.prepare(
     asset=bicycle,
     metadata=metadata,
 )
-
 # print(prepared_creation_tx)
+
+fulfilled_creation_tx = bdb.transactions.fulfill(
+    prepared_creation_tx, private_keys=alice.private_key)
+
+sent_creation_tx = bdb.transactions.send_commit(fulfilled_creation_tx)
+# print(sent_creation_tx == fulfilled_creation_tx)
+
+txid = fulfilled_creation_tx['id']
+# print(txid)
+
+creation_tx = bdb.transactions.retrieve(txid)
+creation_tx = fulfilled_creation_tx
+asset_id = creation_tx['id']
+transfer_asset = {
+    'id': asset_id,
+}
+
+output_index = 0
+output = creation_tx['outputs'][output_index]
+
+transfer_input = {
+    'fulfillment': output['condition']['details'],
+    'fulfills': {
+        'output_index': output_index,
+        'transaction_id': creation_tx['id'],
+    },
+    'owners_before': output['public_keys'],
+}
+
+prepared_transfer_tx = bdb.transactions.prepare(
+    operation='TRANSFER',
+    asset=transfer_asset,
+    inputs=transfer_input,
+    recipients=bob.public_key,
+)
+
+fulfilled_transfer_tx = bdb.transactions.fulfill(
+    prepared_transfer_tx,
+    private_keys=alice.private_key,
+)
+# print(fulfilled_transfer_tx)
+
+print(fulfilled_transfer_tx['outputs'][0]['public_keys'][0] == bob.public_key)
+print(fulfilled_transfer_tx['inputs'][0]['owners_before'][0] == alice.public_key)
