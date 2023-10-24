@@ -24,3 +24,6 @@ $ sudo apt-get install python3-dev libssl-dev libffi-dev
 
 python-driverのインストール  
 `pip install bigchaindb_driver`
+
+環境構築後のpipパッケージ
+![Alt text](image.png)
