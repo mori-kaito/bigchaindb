@@ -18,10 +18,13 @@ class TestMongo(object):
     
     def get_one(self):
         return self.db.test.find_one()
+    
+    def count(self):
+        return self.db.test.count_documents(filter={})
 
 def main():
     obj = TestMongo()
-    rest = obj.get_one()
+    rest = obj.count()
     print(rest)
 
 if __name__ == '__main__':
