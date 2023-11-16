@@ -3,8 +3,6 @@ from pymongo import MongoClient
 from bigchaindb_driver.crypto import generate_keypair
 from datetime import datetime
 
-conn = BigchainDB('http://localhost:9984/')
-
 class kuchikomi(object):
 
     def __init__(self):
@@ -40,6 +38,14 @@ class kuchikomi(object):
     def count(self):
         return self.db.kuchikomi.count_documents(filter={})
 
+class token(object):
+
+    def __init__(self):
+        self.DB = BigchainDB('http://localhost:9984/')
+
+    def createkeypair(self):
+        return None
+
 def main():
     obj = kuchikomi()
     # title = input("タイトル：")
@@ -47,7 +53,6 @@ def main():
     # rest = obj.add_one(title, text)
     # print(rest)
     obj.get_one(1)
-    print(obj.count())
 
 if __name__ == '__main__':
     main()
