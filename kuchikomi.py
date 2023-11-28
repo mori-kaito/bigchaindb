@@ -43,8 +43,19 @@ class token(object):
     def __init__(self):
         self.DB = BigchainDB('http://localhost:9984/')
 
-    def createkeypair(self):
-        return None
+    def createkeypair(self, user_name):
+        user_name = generate_keypair()
+        return user_name
+    
+    def create_asset(self, id, title):
+        kuchikomi_asset = {
+            'data': {
+                title: {
+                    'id': id
+                }
+            }
+        }
+        return kuchikomi_asset
 
 def main():
     obj = kuchikomi()
