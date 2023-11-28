@@ -56,6 +56,21 @@ class token(object):
             }
         }
         return kuchikomi_asset
+    
+    def prepared_creation_tx(self, user_name, kuchikomi_asset):
+        prepared_creation_tx = self.DB.transactions.prepare(
+            operation='CREATE',
+            signers=user_name.public_key,
+            asset=kuchikomi_asset
+        )
+        return prepared_creation_tx
+    
+    def fulfilled_creation_tx(self, prepared_creation_tx, user_name):
+        fulfilled_creation_tx = self.DB.transactions.fulfill(
+            prepared_creation_tx,
+            private_keys=user_name.private_key
+        )
+        return fulfilled_creation_tx
 
 def main():
     obj = kuchikomi()
