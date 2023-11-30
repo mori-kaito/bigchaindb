@@ -6,8 +6,8 @@ from datetime import datetime
 class kuchikomi(object):
 
     def __init__(self):
-         self.clint = MongoClient()
-         self.db = self.clint['kuchikomi']
+        self.clint = MongoClient()
+        self.db = self.clint['kuchikomi']
 
     def add_one(self, title, text):
         id = self.db.kuchikomi.count_documents(filter={})+1
@@ -37,6 +37,24 @@ class kuchikomi(object):
     
     def count(self):
         return self.db.kuchikomi.count_documents(filter={})
+    
+class medical(object):
+
+    def __init__(self):
+        self.clint = MongoClient()
+        self.db = self.clint['medical']
+
+    def add_one(self):
+        id = self.db.medical.count_documents(filter={})+1
+        """データ挿入"""
+        post = {
+            'id': id,
+            'data': None,
+            'created_at': datetime.now(),
+            'delete': 0
+        }
+        return self.db.kuchikomi.insert_one(post)
+
 
 class token(object):
 
