@@ -47,11 +47,12 @@ class token(object):
         user_name = generate_keypair()
         return user_name
     
-    def create_asset(self, id, title):
+    def create_asset(self, kuchikomi_id, medical_id, title):
         kuchikomi_asset = {
             'data': {
                 title: {
-                    'id': id
+                    'kuchikomi_id': kuchikomi_id,
+                    'medical_id' : medical_id
                 }
             }
         }
@@ -71,6 +72,14 @@ class token(object):
             private_keys=user_name.private_key
         )
         return fulfilled_creation_tx
+    
+    def tx_commit(self, fulfilled_creation_tx):
+        sent_creation_tx = self.DB.transactions.send_commit(fulfilled_creation_tx)
+        print(sent_creation_tx==fulfilled_creation_tx)
+
+    def tx_id(self, fulfilled_creation_tx):
+        txid = fulfilled_creation_tx['id']
+        return txid
 
 def main():
     obj = kuchikomi()
