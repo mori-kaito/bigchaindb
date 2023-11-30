@@ -38,6 +38,9 @@ sent_creation_tx = bdb.transactions.send_commit(fulfilled_creation_tx)
 
 txid = fulfilled_creation_tx['id']
 
+block_height = bdb.blocks.get(txid=fulfilled_creation_tx['id'])
+print(block_height)
+
 asset_id = txid
 
 transfer_asset = {
