@@ -113,6 +113,7 @@ class transaction(object):
         print(block)
 
 def main():
+    # 口コミ投稿部分
     obj_k = kuchikomi()
     # u_name = input("username: ")
     # title = input("タイトル：")
@@ -120,31 +121,30 @@ def main():
     # rest = obj_k.add_one(u_name, title, text)
     # print(rest)
     obj_k.get_one(2)
-
+    
+    # 受診記録（仮）
     obj_m = medical()
     # p_name = input("名前: ")
     # rest = obj_m.add_one(p_name)
     # print(rest)
     obj_m.get_one(1)
 
+    # 口コミ管理部分
     obj_t = transaction()
-
     # 仮の変数
     test_name = "kaito"
-
     username = obj_t.createkeypair(test_name)
-
     # 固定した変数
     kuchikomi_id = 2
     medical_id = 1
     title = "test"
-    
+    # アセットの作成およびトランザクションの送信
     kuchikomi_asset = obj_t.create_asset(kuchikomi_id, medical_id, title)
     prepared_creation_tx = obj_t.prepared_creation_tx(username, kuchikomi_asset)
     fulfilled_creation_tx = obj_t.fulfilled_creation_tx(prepared_creation_tx, username)
     obj_t.tx_commit(fulfilled_creation_tx)
     print(obj_t.tx_id(fulfilled_creation_tx))
-
+    #トランザクションの送信チェック
     obj_t.return_check(fulfilled_creation_tx)
 
 
