@@ -55,10 +55,10 @@ class medical(object):
             'created_at': datetime.now(),
             'delete': 0
         }
-        return self.db.kuchikomi.insert_one(post)
+        return self.db.medical.insert_one(post)
     
     def get_one(self, id):
-        find = self.db.kuchikomi.find(filter = {'id': id})
+        find = self.db.medical.find(filter = {'id': id})
         for doc in find:
             print(doc)
 
@@ -136,7 +136,7 @@ def main():
     username = obj_t.createkeypair(test_name)
     # 固定した変数
     kuchikomi_id = 2
-    medical_id = 1
+    medical_id = 2
     title = "test"
     # アセットの作成およびトランザクションの送信
     kuchikomi_asset = obj_t.create_asset(kuchikomi_id, medical_id, title)
