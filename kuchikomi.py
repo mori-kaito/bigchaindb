@@ -9,11 +9,12 @@ class kuchikomi(object):
         self.clint = MongoClient()
         self.db = self.clint['kuchikomi']
 
-    def add_one(self, name, title, text):
+    def add_one(self, medical_id, name, title, text):
         id = self.db.kuchikomi.count_documents(filter={})+1
         """データ挿入"""
         post = {
             'id': id,
+            'medical_id': medical_id,
             'user_name': name,
             'title': title,
             'content': text,
@@ -61,7 +62,11 @@ class medical(object):
         find = self.db.medical.find(filter = {'id': id})
         for doc in find:
             print(doc)
-
+    
+    def get_medical_id(self, name):
+        find = self.db.medical.find_one(filter={'patient_name':name},projection={'_id':0,'id':1,'patient_name':0,'data':0,'created_at':0, 'delete':0})
+        for doc in find:
+            print(doc)
 
 class transaction(object):
 
