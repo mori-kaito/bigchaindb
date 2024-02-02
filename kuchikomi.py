@@ -40,6 +40,10 @@ class kuchikomi(object):
     def count(self):
         return self.db.kuchikomi.count_documents(filter={})
     
+    def serch(self, id):
+        serch = self.db.kuchikomi.find(filter = {'id': id}, projection={'_id':0,'medical_id':1})
+        return serch
+    
 class medical(object):
 
     def __init__(self):
@@ -64,7 +68,7 @@ class medical(object):
             print(doc)
     
     def get_medical_id(self, name):
-        find = self.db.medical.find_one(filter={'patient_name':name},projection={'_id':0,'id':1,'patient_name':0,'data':0,'created_at':0, 'delete':0})
+        find = self.db.medical.find_one(filter={'patient_name':name}, projection={'_id':0,'id':1})
         for doc in find:
             print(doc)
 
@@ -118,36 +122,44 @@ class transaction(object):
         print(block)
 
 def main():
-    # 口コミ投稿部分
     obj_k = kuchikomi()
-    # u_name = input("username: ")
-    # title = input("タイトル：")
-    # text = input("口コミの内容：")
-    # rest = obj_k.add_one(u_name, title, text)
-    # print(rest)
-    obj_k.get_one(2)
-    
-    # 受診記録（仮）
     obj_m = medical()
-    # p_name = input("名前: ")
+    obj_t = transaction()
+
+    # ユーザ登録画面
+    test_name = input("username: ")
+    username = obj_t.createkeypair(test_name)
+    
+    # 診察記録（仮）
+    p_name = input("名前: ")
+    obj_m.add_one(p_name)
     # rest = obj_m.add_one(p_name)
     # print(rest)
-    obj_m.get_one(1)
+    # obj_m.get_one(2)
+
+    # 口コミ投稿部分
+    u_name = input("username: ")
+    title = input("タイトル：")
+    text = input("口コミの内容：")
+    medical_id = obj_m.get_medical_id(u_name)
+    obj_k.add_one(medical_id, u_name, title, text)
+    # rest = obj_k.add_one(medical_id, u_name, title, text)
+    # print(rest)
+    # obj_k.get_one()
 
     # 口コミ管理部分
-    obj_t = transaction()
-    # 仮の変数
-    test_name = "kaito"
-    username = obj_t.createkeypair(test_name)
-    # 固定した変数
-    kuchikomi_id = 2
-    medical_id = 2
+    kuchikomi_id = obj_k.count()
+    medical_id = obj_k.serch(kuchikomi_id)
     title = "test"
     # アセットの作成およびトランザクションの送信
     kuchikomi_asset = obj_t.create_asset(kuchikomi_id, medical_id, title)
     prepared_creation_tx = obj_t.prepared_creation_tx(username, kuchikomi_asset)
     fulfilled_creation_tx = obj_t.fulfilled_creation_tx(prepared_creation_tx, username)
     obj_t.tx_commit(fulfilled_creation_tx)
+    # print(kuchikomi_asset)
+    # print(username)
+    # print(prepared_creation_tx)
+    # print(fulfilled_creation_tx)
     print(obj_t.tx_id(fulfilled_creation_tx))
     #トランザクションの送信チェック
     obj_t.return_check(fulfilled_creation_tx)
